@@ -1,6 +1,8 @@
 //////////////////////////////////////////
 //////////////// LOGGING /////////////////
 //////////////////////////////////////////
+
+
 function getCurrentDateString() {
     return (new Date()).toISOString() + ' ::';
 };
@@ -113,11 +115,16 @@ loadConfig()
 //////////////////////////////////////////
 //////////////////////////////////////////
 //////////////////////////////////////////
+const { Player } = require("discord-player");
 
 
 const Discord = require('discord.js')
 const DISCORD_MSG_LIMIT = 2000;
 const discordClient = new Discord.Client()
+
+const player = new Player(discordClient);
+discordClient.player = player;
+
 discordClient.on('ready', () => {
     console.log(`Logged in as ${discordClient.user.tag}!`)
 })
@@ -131,11 +138,42 @@ const _CMD_DEBUG       = PREFIX + 'debug';
 const _CMD_TEST        = PREFIX + 'hello';
 
 const guildMap = new Map();
+let MapKeys = new Map();
+MapKeys.set("porto", "https://www.youtube.com/watch?v=CY97XoaEjFg");
+MapKeys.set("taverna", "https://www.youtube.com/watch?v=EULoybB2Nsw");
+MapKeys.set("caverna", "https://www.youtube.com/watch?v=kxqJuc1HHbg");
+MapKeys.set("negozio","https://www.youtube.com/watch?v=JCIfDCxakPE&list=PLpRid2Q2964zYtUg-9Hh5QvY-4WFjFnZV&index=3");
+MapKeys.set("fabbro","https://www.youtube.com/watch?v=pRkFl9j3NLk");
+MapKeys.set("villaggio","https://www.youtube.com/watch?v=NeOg8iCFfTA");
+MapKeys.set("notte","https://www.youtube.com/watch?v=7KFoj-SOfHs");
+MapKeys.set("bosco","https://www.youtube.com/watch?v=6Em9tLXbhfo");
+MapKeys.set("giorno","https://www.youtube.com/watch?v=hBkcwy-iWt8");
+MapKeys.set("combattimento","https://www.youtube.com/watch?v=w0sUw735gRw");
+MapKeys.set("demone","https://www.youtube.com/watch?v=rrE1EFE5MqI");
+MapKeys.set("deduzione","https://www.youtube.com/watch?v=E3LeZNlI0Xg");
+            // Dizionario keyword : 
+            // Porto - https://www.youtube.com/watch?v=CY97XoaEjFg
+            // Taverna - https://www.youtube.com/watch?v=EULoybB2Nsw
+            // Caverna - https://www.youtube.com/watch?v=kxqJuc1HHbg
+            // Negozio - https://www.youtube.com/watch?v=JCIfDCxakPE&list=PLpRid2Q2964zYtUg-9Hh5QvY-4WFjFnZV&index=3
+            // Fabbro - https://www.youtube.com/watch?v=pRkFl9j3NLk
+            // Villaggio - https://www.youtube.com/watch?v=NeOg8iCFfTA
+            // Notte - https://www.youtube.com/watch?v=7KFoj-SOfHs
+            // Bosco - https://www.youtube.com/watch?v=6Em9tLXbhfo
+            // Giorno - https://www.youtube.com/watch?v=hBkcwy-iWt8
+            // Combattimento - https://www.youtube.com/watch?v=w0sUw735gRw
+            // Demone - https://www.youtube.com/watch?v=rrE1EFE5MqI
+            // Deduzione - https://www.youtube.com/watch?v=E3LeZNlI0Xg
 
+
+var messaggio;
+var gilda;
 
 discordClient.on('message', async (msg) => {
+    messaggio = msg;
     try {
         if (!('guild' in msg) || !msg.guild) return; // prevent private messages to bot
+        gilda = msg.guild;
         const mapKey = msg.guild.id;
         if (msg.content.trim().toLowerCase() == _CMD_JOIN) {
             if (!msg.member.voice.channelID) {
@@ -195,8 +233,7 @@ class Silence extends Readable {
     this.push(SILENCE_FRAME);
     this.destroy();
   }
-}
-
+} 
 async function connect(msg, mapKey) {
     try {
         let voice_Channel = await discordClient.channels.fetch(msg.member.voice.channelID);
@@ -298,10 +335,24 @@ function speak_impl(voice_Connection, mapKey) {
 }
 
 
+
 function process_commands_query(txt, mapKey, user) {
-    if (txt && txt.length) {
-        let val = guildMap.get(mapKey);
-        val.text_Channel.send(user.username + ': ' + txt)
+    let pulisci         = "-clear"; //uses groovy
+    let play_prefix     = "!play "; //uses groovy
+    let dungeon_master  = "Magdharion"; //only the dungeon master is allowed
+    if (user.username == dungeon_master){
+        if (txt && txt.length) {
+            let val = guildMap.get(mapKey);
+            //teniamo questa solo x debug
+            //val.text_Channel.send(user.username + ': ' + txt);
+            var parole = txt.split(" "); //genera un array di parole
+
+            for (var parola of parole) {
+                if (MapKeys.has(parola)) {
+                    discordClient.player.play(messaggio,MapKeys.get(parola));
+                }
+            }
+        }
     }
 }
 
@@ -343,4 +394,4 @@ async function transcribe_witai(file) {
 }
 //////////////////////////////////////////
 //////////////////////////////////////////
-//////////////////////////////////////////
+//////////////////////////////////////////https://www.devdungeon.com/content/javascript-discord-bot-tutorial#tagging_user
