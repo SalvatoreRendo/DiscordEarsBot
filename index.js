@@ -48,9 +48,9 @@ function clean_temp() {
 clean_temp(); // clean files at startup
 
 function sleep(ms) {
-  return new Promise((resolve) => {
-    setTimeout(resolve, ms);
-  });
+    return new Promise((resolve) => {
+        setTimeout(resolve, ms);
+    });
 }
 
 
@@ -73,12 +73,12 @@ async function convert_audio(infile, outfile, cb) {
             .outputChannels(1)
             .outputFileType('wav');
 
-        command.on('end', function() {
+        command.on('end', function () {
             streamout.close();
             streamin.close();
             cb();
         });
-        command.on('error', function(err, stdout, stderr) {
+        command.on('error', function (err, stdout, stderr) {
             console.log('Cannot process audio: ' + err.message);
             console.log('Sox Command Stdout: ', stdout);
             console.log('Sox Command Stderr: ', stderr)
@@ -101,14 +101,14 @@ async function convert_audio(infile, outfile, cb) {
 const SETTINGS_FILE = 'settings.json';
 
 let DISCORD_TOK = null;
-let witAPIKEY = null; 
+let witAPIKEY = null;
 let SPOTIFY_TOKEN_ID = null;
 let SPOTIFY_TOKEN_SECRET = null;
 let dungeon_master = null;
 
 function loadConfig() {
-    const CFG_DATA = JSON.parse( fs.readFileSync(SETTINGS_FILE, 'utf8') );
-    
+    const CFG_DATA = JSON.parse(fs.readFileSync(SETTINGS_FILE, 'utf8'));
+
     DISCORD_TOK = CFG_DATA.discord_token;
     witAPIKEY = CFG_DATA.wit_ai_token;
     dungeon_master = CFG_DATA.dungeon_master;
@@ -134,39 +134,39 @@ discordClient.on('ready', () => {
 discordClient.login(DISCORD_TOK)
 
 const PREFIX = '*';
-const _CMD_HELP        = PREFIX + 'help';
-const _CMD_JOIN        = PREFIX + 'join';
-const _CMD_LEAVE       = PREFIX + 'leave';
-const _CMD_DEBUG       = PREFIX + 'debug';
-const _CMD_TEST        = PREFIX + 'hello';
+const _CMD_HELP = PREFIX + 'help';
+const _CMD_JOIN = PREFIX + 'join';
+const _CMD_LEAVE = PREFIX + 'leave';
+const _CMD_DEBUG = PREFIX + 'debug';
+const _CMD_TEST = PREFIX + 'hello';
 
 const guildMap = new Map();
 let MapKeys = new Map();
 MapKeys.set("porto", "https://www.youtube.com/watch?v=CY97XoaEjFg");
 MapKeys.set("taverna", "https://www.youtube.com/watch?v=EULoybB2Nsw");
 MapKeys.set("caverna", "https://www.youtube.com/watch?v=kxqJuc1HHbg");
-MapKeys.set("negozio","https://www.youtube.com/watch?v=JCIfDCxakPE&list=PLpRid2Q2964zYtUg-9Hh5QvY-4WFjFnZV&index=3");
-MapKeys.set("fabbro","https://www.youtube.com/watch?v=pRkFl9j3NLk");
-MapKeys.set("villaggio","https://www.youtube.com/watch?v=NeOg8iCFfTA");
-MapKeys.set("notte","https://www.youtube.com/watch?v=7KFoj-SOfHs");
-MapKeys.set("bosco","https://www.youtube.com/watch?v=6Em9tLXbhfo");
-MapKeys.set("giorno","https://www.youtube.com/watch?v=hBkcwy-iWt8");
-MapKeys.set("combattimento","https://www.youtube.com/watch?v=w0sUw735gRw");
-MapKeys.set("demone","https://www.youtube.com/watch?v=rrE1EFE5MqI");
-MapKeys.set("deduzione","https://www.youtube.com/watch?v=E3LeZNlI0Xg");
-            // Dizionario keyword : 
-            // Porto - https://www.youtube.com/watch?v=CY97XoaEjFg
-            // Taverna - https://www.youtube.com/watch?v=EULoybB2Nsw
-            // Caverna - https://www.youtube.com/watch?v=kxqJuc1HHbg
-            // Negozio - https://www.youtube.com/watch?v=JCIfDCxakPE&list=PLpRid2Q2964zYtUg-9Hh5QvY-4WFjFnZV&index=3
-            // Fabbro - https://www.youtube.com/watch?v=pRkFl9j3NLk
-            // Villaggio - https://www.youtube.com/watch?v=NeOg8iCFfTA
-            // Notte - https://www.youtube.com/watch?v=7KFoj-SOfHs
-            // Bosco - https://www.youtube.com/watch?v=6Em9tLXbhfo
-            // Giorno - https://www.youtube.com/watch?v=hBkcwy-iWt8
-            // Combattimento - https://www.youtube.com/watch?v=w0sUw735gRw
-            // Demone - https://www.youtube.com/watch?v=rrE1EFE5MqI
-            // Deduzione - https://www.youtube.com/watch?v=E3LeZNlI0Xg
+MapKeys.set("negozio", "https://www.youtube.com/watch?v=JCIfDCxakPE&list=PLpRid2Q2964zYtUg-9Hh5QvY-4WFjFnZV&index=3");
+MapKeys.set("fabbro", "https://www.youtube.com/watch?v=pRkFl9j3NLk");
+MapKeys.set("villaggio", "https://www.youtube.com/watch?v=NeOg8iCFfTA");
+MapKeys.set("notte", "https://www.youtube.com/watch?v=7KFoj-SOfHs");
+MapKeys.set("bosco", "https://www.youtube.com/watch?v=6Em9tLXbhfo");
+MapKeys.set("giorno", "https://www.youtube.com/watch?v=hBkcwy-iWt8");
+MapKeys.set("combattimento", "https://www.youtube.com/watch?v=w0sUw735gRw");
+MapKeys.set("demone", "https://www.youtube.com/watch?v=rrE1EFE5MqI");
+MapKeys.set("deduzione", "https://www.youtube.com/watch?v=E3LeZNlI0Xg");
+// Dizionario keyword : 
+// Porto - https://www.youtube.com/watch?v=CY97XoaEjFg
+// Taverna - https://www.youtube.com/watch?v=EULoybB2Nsw
+// Caverna - https://www.youtube.com/watch?v=kxqJuc1HHbg
+// Negozio - https://www.youtube.com/watch?v=JCIfDCxakPE&list=PLpRid2Q2964zYtUg-9Hh5QvY-4WFjFnZV&index=3
+// Fabbro - https://www.youtube.com/watch?v=pRkFl9j3NLk
+// Villaggio - https://www.youtube.com/watch?v=NeOg8iCFfTA
+// Notte - https://www.youtube.com/watch?v=7KFoj-SOfHs
+// Bosco - https://www.youtube.com/watch?v=6Em9tLXbhfo
+// Giorno - https://www.youtube.com/watch?v=hBkcwy-iWt8
+// Combattimento - https://www.youtube.com/watch?v=w0sUw735gRw
+// Demone - https://www.youtube.com/watch?v=rrE1EFE5MqI
+// Deduzione - https://www.youtube.com/watch?v=E3LeZNlI0Xg
 
 
 var messaggio;
@@ -193,7 +193,7 @@ discordClient.on('message', async (msg) => {
                 if (val.voice_Channel) val.voice_Channel.leave()
                 if (val.voice_Connection) val.voice_Connection.disconnect()
                 if (val.musicYTStream) val.musicYTStream.destroy()
-                    guildMap.delete(mapKey)
+                guildMap.delete(mapKey)
                 msg.reply("Disconnected.")
             } else {
                 msg.reply("Cannot leave because not connected.")
@@ -220,10 +220,10 @@ discordClient.on('message', async (msg) => {
 
 function getHelpString() {
     let out = '**COMMANDS:**\n'
-        out += '```'
-        out += PREFIX + 'join\n';
-        out += PREFIX + 'leave\n';
-        out += '```'
+    out += '```'
+    out += PREFIX + 'join\n';
+    out += PREFIX + 'leave\n';
+    out += '```'
     return out;
 }
 
@@ -232,11 +232,11 @@ const { Readable } = require('stream');
 const SILENCE_FRAME = Buffer.from([0xF8, 0xFF, 0xFE]);
 
 class Silence extends Readable {
-  _read() {
-    this.push(SILENCE_FRAME);
-    this.destroy();
-  }
-} 
+    _read() {
+        this.push(SILENCE_FRAME);
+        this.destroy();
+    }
+}
 async function connect(msg, mapKey) {
     try {
         let voice_Channel = await discordClient.channels.fetch(msg.member.voice.channelID);
@@ -257,7 +257,7 @@ async function connect(msg, mapKey) {
             'debug': false,
         });
         speak_impl(voice_Connection, mapKey)
-        voice_Connection.on('disconnect', async(e) => {
+        voice_Connection.on('disconnect', async (e) => {
             if (e) console.log(e);
             guildMap.delete(mapKey);
         })
@@ -275,7 +275,7 @@ function speak_impl(voice_Connection, mapKey) {
         if (speaking.bitfield == 0 /*|| user.bot*/) {
             return
         }
-        
+
         if (user.username != dungeon_master) return; //only listens to what DM says
 
         console.log(`I'm listening to ${user.username}`)
@@ -287,10 +287,10 @@ function speak_impl(voice_Connection, mapKey) {
         const audioStream = voice_Connection.receiver.createStream(user, { mode: 'pcm' })
         audioStream.pipe(ws)
 
-        audioStream.on('error',  (e) => { 
+        audioStream.on('error', (e) => {
             console.log('audioStream: ' + e)
         });
-        ws.on('error',  (e) => { 
+        ws.on('error', (e) => {
             console.log('ws error: ' + e)
         });
         audioStream.on('end', async () => {
@@ -340,27 +340,35 @@ function speak_impl(voice_Connection, mapKey) {
     })
 }
 
-
+var lastSong;
 
 function process_commands_query(txt, mapKey, user) {
-    let pulisci         = "-clear"; //uses groovy
-    let play_prefix     = "!play "; //uses groovy
-    if (user.username == dungeon_master){
-        if (txt && txt.length) {
-            let val = guildMap.get(mapKey);
-            //teniamo questa solo x debug
-            //val.text_Channel.send(user.username + ': ' + txt);
-            var parole = txt.split(" "); //genera un array di parole
-
-            for (var parola of parole) {
-                if (MapKeys.has(parola)) {
-                    discordClient.player.play(messaggio,MapKeys.get(parola));
-                }
-            }
-        }
+    if (!check_txt_len(txt)) return;                                                // check message esists
+    //let val = guildMap.get(mapKey);val.text_Channel.send(user.username + ': ' + txt);     //DEBUGGING    
+    var arrofwords = txt.split(" ");                                             // array of every word
+    let element = find_last_word(arrofwords);                                    // find last word
+    if (element && check_last_elem(element)) {                                  //checking element not already used
+            discordClient.player.play(messaggio, MapKeys.get(element));         //start music
     }
+    memLastSong(element);
 }
 
+function check_txt_len(txt) {
+    return (txt && txt.length);
+}
+
+function find_last_word(arrofwords){
+    let finalWord = arrofwords.reverse().find(element => (true == MapKeys.has(element)));
+    return finalWord;
+}
+
+function memLastSong(element){
+    lastSong= element;
+}
+
+function check_last_elem(element){
+    return  element != lastSong;
+}
 
 //////////////////////////////////////////
 //////////////// SPEECH //////////////////
@@ -371,7 +379,7 @@ async function transcribe_witai(file) {
     try {
         // ensure we do not send more than one request per second
         if (witAI_lastcallTS != null) {
-            let now = Math.floor(new Date());    
+            let now = Math.floor(new Date());
             while (now - witAI_lastcallTS < 1000) {
                 console.log('sleep')
                 await sleep(100);
