@@ -349,8 +349,8 @@ function process_commands_query(txt, mapKey, user) {
     let element = find_last_word(arrofwords);                                    // find last word
     if (element && check_last_elem(element)) {                                  //checking element not already used
             discordClient.player.play(messaggio, MapKeys.get(element));         //start music
+            mem_last_song(element);         
     }
-    memLastSong(element);
 }
 
 function check_txt_len(txt) {
@@ -362,7 +362,7 @@ function find_last_word(arrofwords){
     return finalWord;
 }
 
-function memLastSong(element){
+function mem_last_song(element){
     lastSong= element;
 }
 
