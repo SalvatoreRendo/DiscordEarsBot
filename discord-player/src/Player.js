@@ -331,8 +331,10 @@ class Player extends EventEmitter {
         }
         if (trackToPlay) {
             if (this.isPlaying(message)) {
+                if (trackToPlay == this.nowPlaying(message)) return;
                 const queue = this._addTrackToQueue(message, trackToPlay)
                 this.emit('trackAdd', message, queue, queue.tracks[queue.tracks.length - 1])
+                this.skip(message);
             } else {
                 const queue = await this._createQueue(message, trackToPlay)
                 this.emit('trackStart', message, queue.tracks[0])
