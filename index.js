@@ -104,12 +104,15 @@ let DISCORD_TOK = null;
 let witAPIKEY = null; 
 let SPOTIFY_TOKEN_ID = null;
 let SPOTIFY_TOKEN_SECRET = null;
+let dungeon_master = null;
 
 function loadConfig() {
     const CFG_DATA = JSON.parse( fs.readFileSync(SETTINGS_FILE, 'utf8') );
     
     DISCORD_TOK = CFG_DATA.discord_token;
     witAPIKEY = CFG_DATA.wit_ai_token;
+    dungeon_master = CFG_DATA.dungeon_master;
+    console.log(dungeon_master)
 }
 loadConfig()
 //////////////////////////////////////////
@@ -272,6 +275,9 @@ function speak_impl(voice_Connection, mapKey) {
         if (speaking.bitfield == 0 /*|| user.bot*/) {
             return
         }
+        
+        if (user.username != dungeon_master) return; //only listens to what DM says
+
         console.log(`I'm listening to ${user.username}`)
 
         const filename = './temp/audio_' + mapKey + '_' + user.username.replace(/[^a-z0-9]/gi, '_').toLowerCase() + '_' + Date.now() + '.tmp';
@@ -339,7 +345,6 @@ function speak_impl(voice_Connection, mapKey) {
 function process_commands_query(txt, mapKey, user) {
     let pulisci         = "-clear"; //uses groovy
     let play_prefix     = "!play "; //uses groovy
-    let dungeon_master  = "Magdharion"; //only the dungeon master is allowed
     if (user.username == dungeon_master){
         if (txt && txt.length) {
             let val = guildMap.get(mapKey);
