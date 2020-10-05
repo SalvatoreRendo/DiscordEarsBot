@@ -3,7 +3,6 @@ data/
 temp/
 screenlog*
 package-lock.json
-
 # Logs
 logs
 *.log
@@ -45,7 +44,6 @@ build/Release
 
 # Dependency directories
 node_modules/
-!*node_modules/discord-player/*
 jspm_packages/
 
 # TypeScript v1 declaration files
